@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 12
       - run: npm install
-      - run: npm run build:dev
+      - run: npm run build
       - run: rm -rf .git
       - run: rm -rf .github
       - run: 'echo "$SSH_KEY" > key'
