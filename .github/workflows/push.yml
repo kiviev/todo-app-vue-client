@@ -1,0 +1,32 @@
+name: Deploy to OVH
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Haciendo deploy
+    steps:
+      - uses: actions/checkout@v1
+ 
+      - name: Instalando node v12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm install
+      - run: npm run build
+      - run: rm -rf .git
+      - run: rm -rf .github
+      - run: 'echo "$SSH_KEY" > key'
+        shell: bash
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+      - run: sudo chmod 700 ./key
+      - name: Deploy to OVH
+        run: rsync -rav -e "ssh -i ./key -p ${{ secrets.SSH_PORT }} -oStrictHostKeyChecking=no" --progress --include={"dist"} . ${{ secrets.SSH_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.TARGET }}
+      - name: 'Remove key'
+        run: rm ./key
+
