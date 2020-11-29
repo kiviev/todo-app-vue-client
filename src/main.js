@@ -8,7 +8,7 @@ import axios from 'axios';
 Vue.config.productionTip = false;
 
 const apiUrl = process.env.NODE_ENV == 'production' 
-  ? 'http://test.ofertaka.com/api/'
+  ? 'http://dev.ofertaka.com/api/'
   : 'http://nextyres.test/api/';
 
 const axiosInstance = axios.create({
