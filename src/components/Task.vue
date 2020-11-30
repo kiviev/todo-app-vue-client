@@ -30,12 +30,12 @@
                  <div v-if="showInEdit" class="for-group">
                     <label for="priority">priority</label>
                     <select id="priority" class="form-control" v-model="priority">
-                      <option :selected="priority == 0">0</option>
-                      <option :selected="priority == 1">1</option>
-                      <option :selected="priority == 2">2</option>
-                      <option :selected="priority == 3">3</option>
-                      <option :selected="priority == 4">4</option>
-                      <option :selected="priority == 5">5</option>
+                      <option :selected="priority == 5" value="5">Very Hight</option>
+                      <option :selected="priority == 4" value="4">Hight</option>
+                      <option :selected="priority == 3" value="3">Medium Hight</option>
+                      <option :selected="priority == 2" value="2">Medium</option>
+                      <option :selected="priority == 1" value="1">Low</option>
+                      <option :selected="priority == 0" value="0">Very Low</option>
                     </select>
                 </div>
         
