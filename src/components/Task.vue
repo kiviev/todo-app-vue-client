@@ -38,23 +38,23 @@
                       <option :selected="priority == 0" value="0">Very Low</option>
                     </select>
                 </div>
-        
+
                 <!-- Button -->
                 <div>
                   <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                      <button href="#" v-if="showInEdit" @click.prevent="submit" class="btn btn-primary">Save</button>
-                      <button href="#" v-if="!showInEdit" @click.prevent="showEdit" class="btn btn-primary">Edit</button>
-                      <button href="#" v-else @click.prevent="cancel" class="btn btn-primary">Cancel</button>
+                      <button href="#" id="save-button" v-if="showInEdit" @click.prevent="submit" class="btn btn-primary">Save</button>
+                      <button href="#" id="edit-button" v-if="!showInEdit" @click.prevent="showEdit" class="btn btn-primary">Edit</button>
+                      <button href="#" id="cancel-button" v-else @click.prevent="cancel" class="btn btn-primary">Cancel</button>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
                       <button href="#" v-if="showInEdit && !this.new" @click.prevent="destroy" class="btn btn-danger">Delete</button>
                     </div>
-                  </div>   
+                  </div>
                 </div>
             </div>
           </div>
-         
+
         </div>
 <!-- Card -->
   </div>
@@ -86,18 +86,17 @@ export default {
       task: {},
       randomImage: null
     }
-    
+
   },
   mounted() {
     this.randomImage = this.getRandomImage()
   },
   methods: {
       submit(){
-        let self = this;
         const valid = this.validate();
         if(valid){
           const context = (this.task.id ? (this.context + this.task.id) : this.context);
-      
+
           const formData = {
                 id: this.id,
                 title: this.title,
@@ -105,26 +104,29 @@ export default {
                 priority: this.priority
               };
 
-          this.$http.post( context, formData)
-            .then((r => {
-              console.log(r);
-            }))
-            .catch(e => {
-              console.error(e);
-              })
-            .finally(() => {
-              self.$emit('submitted');
-            });
-        }
+          this.send(context,formData);
 
-       
-        },
-      validate(){
-        if(this.priority < 0 || this.priority > 5){
-          alert("Priority: " + this.priority + " Not valid!!!")
-          return false;
         }
-        return true;
+      },
+      send(context, formData){
+          let self = this;
+          this.$http.post(context, formData)
+              .then((r => {
+                  console.log(r);
+              }))
+              .catch(e => {
+                  console.error(e);
+              })
+              .finally(() => {
+                  self.$emit('submitted');
+              });
+      },
+      validate(){
+            if(this.priority < 0 || this.priority > 5){
+              alert("Priority: " + this.priority + " Not valid!!!")
+              return false;
+            }
+            return true;
       },
       showEdit(){
         this.onEdit = !this.onEdit
@@ -167,7 +169,7 @@ export default {
 
         ]
 
-        const index = Math.floor(Math.random() * 5); 
+        const index = Math.floor(Math.random() * 5);
 
         return list[index];
       }
