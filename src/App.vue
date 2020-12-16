@@ -4,7 +4,6 @@
       <navbar />
       <container />
     </div>
-  
   </div>
 </template>
 
@@ -31,6 +30,3 @@ export default {
   margin-top: 60px;
 }
 </style>
-
-
-
